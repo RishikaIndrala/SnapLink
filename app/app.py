@@ -25,6 +25,14 @@ def shorten_url(request: schemas.URLCreateRequest, db: Session = Depends(get_db)
     return db_url
 
 
+@app.get("/stats/{short_code}", response_model=schemas.URLStatsResponse)
+def get_stats(short_code: str, db: Session = Depends(get_db)):
+    db_url = crud.get_url_stats(db, short_code)
+    if db_url is None:
+        raise HTTPException(status_code=404, detail="Short URL not found")
+    return db_url
+
+
 @app.get("/{short_code}")
 def redirect_to_url(short_code: str, db: Session = Depends(get_db)):
     long_url = crud.get_url_by_code(db, short_code)
