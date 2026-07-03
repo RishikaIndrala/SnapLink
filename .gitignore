@@ -1,0 +1,15 @@
+# Python virtual environment
+venv/
+.venv/
+
+# Environment variables / Secrets
+.env
+
+# Python bytecode caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Editor specific settings
+.vscode/
