@@ -50,9 +50,15 @@ nothing to compare it to.
 
 ## What I found when I measured it
 
-Before caching, a redirect took about **470ms**. After adding Redis
-caching, a cached redirect took about **380ms** — roughly a **20%**
-improvement.
+| What I measured | Result | Notes |
+|---|---|---|
+| Health check | ~23ms | Just confirms the server's up, no database involved |
+| Creating a short link (`/shorten`) | ~10ms | Writes to the database |
+| Visiting a short link, locally, before caching | ~710ms | Tested from my own machine, before deploying — slow partly because my machine and the database were far apart |
+| Visiting a short link, locally, after caching | ~235ms | Same local setup, once Redis was added |
+| Visiting a short link, live, before caching | ~470ms | Once deployed, app and database were closer together, so this dropped a lot even without caching yet |
+| Visiting a short link, live, after caching | ~380ms | Official before/after comparison |
+| Improvement from caching (live) | ~20% | Smaller than expected — see below |
 
 I expected caching to help a lot more than that, so I looked into why
 it didn't. It turned out most of the delay wasn't the database query
